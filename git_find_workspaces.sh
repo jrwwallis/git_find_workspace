@@ -23,11 +23,13 @@ fi
 #   skip ..dotfiles, but allow ..
 #   skip .dotfiles, but allow ..
 #   git workspace found! print, then don't traverse deeper; continue
+#   git worktree found! print, then don't traverse deeper; continue
 
 find "${wd}" \
     -mount \
-    ! -type d -prune -o \
-    ! ${dirAccessible} -prune -o \
-    -name '..?*' -prune -o \
-    -name '.[^.]*' -prune -o \
-    -execdir test -f '{}/.git/HEAD' \; -print -prune
+    ! -type d -prune \
+    -o ! ${dirAccessible} -prune \
+    -o -name '..?*' -prune \
+    -o -name '.[^.]*' -prune \
+    -o -execdir test -f '{}/.git/HEAD' \; -print -prune \
+    -o -execdir test -f '{}/.git' \; -print -prune \
